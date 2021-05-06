@@ -1,0 +1,13 @@
+{
+  "StartAt": "get_feed_urls",
+  "States": {
+    "get_feed_urls": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${get_feed_urls}"
+      },
+      "End": true
+    }
+  }
+}
