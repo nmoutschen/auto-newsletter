@@ -4,8 +4,29 @@
     "get_feed_urls": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
       "Parameters": {
         "FunctionName": "${get_feed_urls}"
+      },
+      "Next": "feed_map"
+    },
+    "feed_map": {
+      "Type": "Map",
+      "ItemsPath": "$.feed_urls",
+      "Iterator": {
+        "StartAt": "fetch_articles",
+        "States": {
+          "fetch_articles": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "OutputPath": "$.Payload",
+            "Parameters": {
+              "FunctionName": "${fetch_articles}",
+              "Payload.$": "$"
+            },
+            "End": true
+          }
+        }
       },
       "End": true
     }

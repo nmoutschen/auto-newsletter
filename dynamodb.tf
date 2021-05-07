@@ -29,3 +29,17 @@ resource "aws_dynamodb_table_item" "serverlessland" {
 }
 EOF
 }
+
+resource "aws_dynamodb_table_item" "computeblog" {
+  table_name = aws_dynamodb_table.this.id
+  hash_key = aws_dynamodb_table.this.hash_key
+  range_key = aws_dynamodb_table.this.range_key
+
+  item = <<EOF
+{
+  "pk": {"S": "feed"},
+  "sk": {"S": "https://aws.amazon.com/blogs/compute/feed/"},
+  "timestamp": {"N": "0"}
+}
+EOF
+}

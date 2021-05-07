@@ -22,5 +22,8 @@ def handler(event, _):
     )
 
     return {
-        "feed_urls": [i["sk"] for i in res.get("Items", [])]
+        "feed_urls": [
+            {"feed": i["sk"], "timestamp": i["timestamp"]}
+            for i in res.get("Items", [])
+        ]
     }

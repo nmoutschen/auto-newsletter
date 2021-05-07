@@ -22,7 +22,8 @@ data "aws_iam_policy_document" "processor" {
   statement {
     actions = ["lambda:InvokeFunction"]
     resources = [
-      module.get_feed_urls.arn
+      module.get_feed_urls.arn,
+      module.fetch_articles.arn
     ]
   }
 }
@@ -33,5 +34,6 @@ resource "aws_sfn_state_machine" "processor" {
 
   definition = templatefile("resources/processor.asl.json", {
     get_feed_urls = module.get_feed_urls.arn
+    fetch_articles = module.fetch_articles.arn
   })
 }
